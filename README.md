@@ -2,11 +2,8 @@
 #Aula de Git & GitHub
 ---
 
-Até agora, aprendemos sobre os fundamentos do **Versionamento de Código** com **Git** e como o **GitHub** atua como uma plataforma essencial para isso.
 
----
-
-### Resumo do que aprendemos:
+### Resumo do que aprendizado:
 
 1.  **Versionamento de Código (VCS):**
     * É um sistema para **rastrear e gerenciar mudanças** em arquivos ao longo do tempo.
