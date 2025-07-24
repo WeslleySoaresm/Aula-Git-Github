@@ -3,7 +3,7 @@
 ---
 
 
-### Resumo do que aprendizado:
+### Resumo do meu aprendizado:
 
 1.  **Versionamento de Código (VCS):**
     * É um sistema para **rastrear e gerenciar mudanças** em arquivos ao longo do tempo.
