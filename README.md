@@ -60,4 +60,132 @@ Em resumo, o Git nos dá o poder de gerenciar as versões do nosso código de fo
 |git rm [nome_do_arquivo] | Remove um arquivo do seu diretório de trabalho e do Git.|
 |git reset [arquivo] | Remove um arquivo da área de staging (desfaz um git add), mas mantém o arquivo no seu diretório de trabalho. |
 |git restore [arquivo] | Descarta as alterações feitas em um arquivo desde o último commit (volta o arquivo ao estado do último commit). |
-|git diff | Mostra as diferenças entre o seu diretório de trabalho, a área de staging e o último commit. |
+|git diff | Mostra as diferenças entre o seu diretório de trabalho, a área de staging e o último commit. |## Trabalhar com **branches (ramificações)** é uma das funcionalidades mais poderosas e fundamentais do Git, essencial para o desenvolvimento colaborativo e para manter seu código organizado.
+
+Vamos entender o que são branches e como trabalhar com elas:
+
+-----
+
+### O que são Branches?
+
+Imagine seu projeto Git como uma linha do tempo principal (geralmente chamada de `main` ou `master`). Uma **branch** é como uma "ramificação" dessa linha do tempo. Ela permite que você:
+
+  * **Desenvolva novas funcionalidades** sem afetar o código principal (estável).
+  * **Corrija bugs** em um ambiente isolado.
+  * **Experimente ideias** sem medo de quebrar o projeto principal.
+  * Permita que **várias pessoas trabalhem em diferentes partes** do projeto ao mesmo tempo.
+
+Quando você cria uma branch, é como se estivesse fazendo uma cópia do estado atual do seu projeto. Todas as alterações que você fizer nessa nova branch não afetarão a branch principal até que você decida mesclá-las.
+
+-----
+
+### Fluxo de Trabalho Básico com Branches
+
+Um fluxo de trabalho comum seria:
+
+1.  **Branch Principal (Ex: `main` ou `master`):** Contém a versão estável e funcional do seu projeto.
+2.  **Criação de uma Nova Branch:** Para cada nova funcionalidade, correção de bug ou experimento, você cria uma nova branch a partir da principal.
+3.  **Desenvolvimento na Nova Branch:** Você trabalha, faz commits e testa suas alterações nessa branch isolada.
+4.  **Mesclagem (Merge):** Quando a funcionalidade está pronta e testada, você mescla as alterações da sua branch de volta para a branch principal.
+5.  **Exclusão da Branch:** Após a mesclagem, a branch de funcionalidade geralmente é excluída, pois seu propósito foi cumprido.
+
+-----
+
+### Comandos Principais para Trabalhar com Branches
+
+Aqui estão os comandos Git essenciais para gerenciar branches:
+
+1.  **Verificar as Branches Existentes:**
+
+    ```bash
+    git branch
+    ```
+
+      * Este comando lista todas as branches locais no seu repositório. A branch em que você está atualmente será marcada com um asterisco (`*`).
+
+2.  **Criar uma Nova Branch:**
+
+    ```bash
+    git branch [nome_da_nova_branch]
+    ```
+
+      * Exemplo: `git branch minha-nova-funcionalidade`
+      * Este comando cria a branch, mas **não te move para ela**. Você ainda estará na branch anterior.
+
+3.  **Mudar para uma Branch Existente:**
+
+    ```bash
+    git checkout [nome_da_branch]
+    # OU (recomendado para versões mais recentes do Git)
+    git switch [nome_da_branch]
+    ```
+
+      * Exemplo: `git checkout minha-nova-funcionalidade`
+      * Exemplo: `git switch minha-nova-funcionalidade`
+      * Este comando muda seu diretório de trabalho para o estado da branch especificada.
+
+4.  **Criar e Mudar para uma Nova Branch (Atalho):**
+
+    ```bash
+    git checkout -b [nome_da_nova_branch]
+    # OU (recomendado para versões mais recentes do Git)
+    git switch -c [nome_da_nova_branch]
+    ```
+
+      * Exemplo: `git checkout -b minha-nova-funcionalidade`
+      * Exemplo: `git switch -c minha-nova-funcionalidade`
+      * Este é um comando muito comum, pois ele cria a nova branch e já te move para ela em uma única etapa.
+
+5.  **Mesclar uma Branch em Outra:**
+
+      * Primeiro, **mude para a branch que você quer atualizar** (geralmente a `main` ou `master`).
+        ```bash
+        git switch main
+        ```
+      * Em seguida, **mescle a branch de funcionalidade** nela:
+        ```bash
+        git merge [nome_da_branch_a_mesclar]
+        ```
+          * Exemplo: `git merge minha-nova-funcionalidade`
+          * O Git tentará combinar as alterações automaticamente. Se houver conflitos (partes do código que foram alteradas de forma diferente em ambas as branches), o Git irá notificá-lo, e você precisará resolvê-los manualmente antes de finalizar o merge.
+
+6.  **Excluir uma Branch Local:**
+
+      * **Importante:** Você não pode excluir a branch em que você está atualmente. Mude para outra branch (geralmente `main`) antes de excluir.
+      * Para excluir uma branch que já foi mesclada:
+        ```bash
+        git branch -d [nome_da_branch_a_excluir]
+        ```
+          * Exemplo: `git branch -d minha-nova-funcionalidade`
+      * Para forçar a exclusão de uma branch (mesmo que não tenha sido mesclada, use com cautela, pois pode perder commits):
+        ```bash
+        git branch -D [nome_da_branch_a_excluir]
+        ```
+
+7.  **Enviar uma Branch para o Repositório Remoto (GitHub):**
+
+      * Quando você cria uma branch localmente, ela só existe na sua máquina. Para que ela apareça no GitHub e outros possam vê-la e colaborar, você precisa enviá-la:
+        ```bash
+        git push -u origin [nome_da_sua_branch]
+        ```
+          * Exemplo: `git push -u origin minha-nova-funcionalidade`
+          * O `-u` (ou `--set-upstream`) é usado na primeira vez para vincular sua branch local à branch remota de mesmo nome. Nas próximas vezes, um simples `git push` já será suficiente.
+
+8.  **Excluir uma Branch no Repositório Remoto (GitHub):**
+
+    ```bash
+    git push origin --delete [nome_da_branch_remota]
+    ```
+
+      * Exemplo: `git push origin --delete minha-nova-funcionalidade`
+
+-----
+
+### Por que usar Branches?
+
+  * **Isolamento:** Mantenha o código principal limpo e funcional enquanto trabalha em novas funcionalidades.
+  * **Colaboração:** Várias pessoas podem trabalhar em paralelo em diferentes branches sem interferir umas nas outras.
+  * **Experimentação:** Crie branches para testar ideias radicais ou refatorações sem medo de danificar o projeto principal.
+  * **Revisão de Código:** Em plataformas como o GitHub, as branches são a base para **Pull Requests**, onde colegas de equipe podem revisar suas alterações antes que elas sejam mescladas na branch principal.
+
+Dominar o uso de branches é um passo crucial para se tornar proficiente em Git e colaborar efetivamente em projetos de software.
